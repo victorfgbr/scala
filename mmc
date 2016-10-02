@@ -1,0 +1,48 @@
+object mmc {
+  def main (args: Array[String]): Unit = println ("MMC: "+ encontra_mmc(Array(1, 2, 3, 4, 5, 6, 7)))
+
+  def encontra_mmc (lista: Array[Int]): Int = verifica_numero(lista, 2, 1)
+
+  def verifica_numero (lista: Array[Int], divisor: Int, mmc: Int): Int =
+    if (!chegou_no_fim (lista)) {
+      val lista_aux = divide_lista (lista, divisor)
+      if (listas_iguais(lista, lista_aux)) verifica_numero (lista_aux, divisor+1, mmc)
+      else verifica_numero (lista_aux, divisor, (mmc * divisor))
+    }
+    else mmc
+
+  // Dividir a lista
+  def divide_lista (lista: Array[Int], divisor: Int): Array[Int] = func_d_l (lista, divisor, 0)
+  def func_d_l (lista: Array[Int], divisor: Int, indice: Int): Array[Int] =
+    if (indice < lista.length)
+      if (lista(indice)%divisor == 0) Array(lista(indice)/divisor)++ func_d_l (lista, divisor, indice+1)
+      else Array(lista(indice))++ func_d_l (lista, divisor, indice+1)
+    else Array()  
+
+  // Verificar se chegou ao Fim
+  def chegou_no_fim (lista: Array[Int]): Boolean = func_c_f (lista, 0)
+  def func_c_f (lista: Array[Int], indice: Int): Boolean =
+    if (indice < lista.length)
+        if (func_c_f (lista, (indice+1)) == true)
+          if (lista(indice) == 1) true
+          else false
+        else false
+    else true  
+    
+  // Imprimir Lista
+  def imprimi_lista (lista: Array[Int]): Unit = func_i_l (lista, 0)
+  def func_i_l (lista: Array[Int], i: Int): Unit = 
+    if (i < lista.length) {
+      print (lista(i)+", ")
+      func_i_l (lista, i+1)
+    }
+    else print ("\n")
+    
+  // Comparar listas
+  def listas_iguais (lista_1: Array[Int], lista_2: Array[Int]): Boolean =  c_e (lista_1, lista_2, 0) 
+  def c_e (lista_1: Array[Int], lista_2: Array[Int], i: Int): Boolean =
+    if (i < lista_1.length) 
+      if (lista_1(i) == lista_2(i) ) c_e (lista_1, lista_2, i+1)
+      else false
+    else true
+}
